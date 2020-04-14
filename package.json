@@ -1,0 +1,18 @@
+{
+  "name": "nike-bot",
+  "version": "1.0.0",
+  "description": "A bot using Node.js / puppeteer that buys a Nike shoe when it drops",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "puppeteer": "^2.1.1",
+    "puppeteer-extra": "3.1.7",
+    "puppeteer-extra-plugin-stealth": "^2.4.7",
+    "simple-node-logger": "18.12.23",
+    "slugify": "^1.4.0"
+  },
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "Valentin Harrang <contact@valentin-harrang.fr>",
+  "license": "GPL3"
+}

@@ -37,7 +37,41 @@ try {
         let log = SimpleNodeLogger.createSimpleFileLogger(opts);
 
         // Création des répertoires qui contiennent les logs
-        await setLogFolders(page, parameters.debug);
+        if (parameters.debug === true) {
+            installMouseHelper(page);
+
+            let dir = 'htmls';
+            if (!fs.existsSync(dir)) {
+                try {
+                    fs.mkdirSync(dir);
+                }
+                catch (error) {
+                    console.log('Error : ' + error);
+                }
+            }
+
+            dir = 'screenshots';
+            if (!fs.existsSync(dir)) {
+                try {
+                    fs.mkdirSync(dir);
+                }
+                catch (error) {
+                    console.log('Error : ' + error);
+                }
+            }
+
+            dir = 'logs';
+            if (!fs.existsSync(dir)) {
+                try {
+                    fs.mkdirSync(dir);
+                }
+                catch (error) {
+                    console.log('Error : ' + error);
+                }
+            }
+
+            log.setLevel('info');
+        }
 
         await page.goto(parameters.url);
         page.waitForNavigation({ waitUntil: 'networkidle0' }).catch((error) => {

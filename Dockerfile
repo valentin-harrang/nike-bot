@@ -1,16 +1,22 @@
 FROM alpine
 
-RUN apk add --update nodejs npm && apk add -U --no-cache --allow-untrusted udev ttf-freefont chromium git
+RUN apk add --update nodejs npm \
+    && apk add -U --no-cache --allow-untrusted udev ttf-freefont chromium git \
+    && addgroup -S node && adduser -S node -G node
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV CHROMIUM_PATH /usr/bin/chromium-browser
 
-COPY . /app
+RUN mkdir -p /app/node_modules && chown -R node:node /app
 
 WORKDIR /app
 
-VOLUME ["/app"]
+COPY package*.json ./
 
-RUN npm install && node bot.js
+USER node
+
+RUN npm install
+
+COPY --chown=node:node . .
 
 CMD ["sh"]

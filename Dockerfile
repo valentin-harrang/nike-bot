@@ -11,5 +11,5 @@ WORKDIR /app
 
 VOLUME ["/app"]
 
-RUN chmod -R 777 /app/nike-bot && cd /app/nike-bot && node bot.js
+RUN npm install && node bot.js
 CMD ["sh"]

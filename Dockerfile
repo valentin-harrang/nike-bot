@@ -12,4 +12,5 @@ WORKDIR /app
 VOLUME ["/app"]
 
 RUN npm install && node bot.js
+
 CMD ["sh"]

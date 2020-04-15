@@ -8,4 +8,5 @@ module.exports = Object.freeze({
     "url": "https://www.nike.com/fr/launch/t/womens-air-zoom-spiridon-cage-2-metallic-silver",
     "debug": true,
     "buy": true,
+    "proxy": "127.0.0.1:8118",
 });

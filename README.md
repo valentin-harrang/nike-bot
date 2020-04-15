@@ -19,4 +19,4 @@ Or with Docker :
 - Run `docker pull dperson/torproxy`
 - Run `docker run -it -p 8118:8118 -p 9050:9050 -d dperson/torproxy -e`
 - Run `curl -Lx http://127.0.0.1:8118 http://jsonip.com/` (optional)
-- Run `docker build -t alpine:nike_alpine . && docker run -d -it alpine:nike_alpine`
+- Run `docker build -t alpine:nike_alpine . && docker run -d -v /media/valentin/Stockage/workspace/perso/nike-bot:/app -it alpine:nike_alpine`

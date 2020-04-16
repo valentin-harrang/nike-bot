@@ -1,8 +1,9 @@
-FROM alpine
+FROM arm32v6/alpine
+COPY qemu-arm-static /usr/bin/
+MAINTAINER David Personette <dperson@gmail.com>
 
-RUN apk add --update nodejs npm \
-    && apk add -U --no-cache --allow-untrusted udev ttf-freefont chromium git \
-    && apk --no-cache --no-progress upgrade && \
+# Install tor and privoxy
+RUN apk --no-cache --no-progress upgrade && \
     apk --no-cache --no-progress add bash curl privoxy shadow tini tor tzdata&&\
     file='/etc/privoxy/config' && \
     sed -i 's|^\(accept-intercepted-requests\) .*|\1 1|' $file && \
@@ -51,17 +52,6 @@ RUN apk add --update nodejs npm \
     chown -Rh tor. /var/lib/tor /etc/tor/run && \
     chmod 0750 /etc/tor/run && \
     rm -rf /tmp/*
-
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV CHROMIUM_PATH /usr/bin/chromium-browser
-
-RUN mkdir -p /app/node_modules
- 
-WORKDIR /app
- 
-COPY /bot/package*.json ./
- 
-RUN npm install
 
 COPY torproxy.sh /usr/bin/
 

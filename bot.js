@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const fs = require('fs');
 const parameters = require('./const');
@@ -8,8 +8,8 @@ const pluginStealth = require("puppeteer-extra-plugin-stealth");
 const { installMouseHelper } = require('./mouse-helper');
 puppeteer.use(pluginStealth());
 
-const html_path = 'htmls/bot_';
-const screenshot_path = 'screenshots/bot_';
+const html_path = parameters.htmlPath;
+const screenshot_path = parameters.screenshotPath;
 const SimpleNodeLogger = require('simple-node-logger'),
     opts = {
         logFilePath: 'logs/' + 'bot.log',
@@ -19,6 +19,8 @@ const SimpleNodeLogger = require('simple-node-logger'),
         ]
     };
 let html = '';
+
+console.log("Le bot d'achat démarre...");
 
 try {
     (async () => {
@@ -73,7 +75,7 @@ try {
             log.setLevel('info');
         }
 
-        await page.goto(parameters.url);
+        await page.goto(parameters.urlShoe);
         page.waitForNavigation({ waitUntil: 'networkidle0' }).catch((error) => {
             console.log(error);
         });
@@ -138,15 +140,7 @@ try {
         await generateInfoLog('5.Produit ajouté au panier', parameters.debug);
 
         // Bouton "Paiement"
-        await page.waitFor(1000).catch((error) => {
-            console.log(error);
-        });
-
-        await page.evaluate(() =>
-            document.querySelectorAll("button[data-qa=checkout-link]")[0].click()
-        ).catch((error) => {
-            console.log(error);
-        });
+        await page.goto(parameters.urlPayment);
 
         // Connexion
         await page.waitForSelector('.emailAddress').catch((error) => {
@@ -240,9 +234,14 @@ try {
 
             await generateInfoLog('9.Commande effectuée', parameters.debug);
 
+            throw ("/!\ ACHAT RÉUSSI !!!");
+
             await page.waitFor(500).catch((error) => {
                 console.log(error);
             });
+        }
+        else {
+            throw ("/!\ Achat non effectué");
         }
 
         function setLogFolders(page, debug) {

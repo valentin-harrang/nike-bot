@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  nike:
+    container_name: nike
+    build:
+      context: .
+    volumes:
+      - ./:/app
+    ports:
+      - 8118:8118
+      - 9050:9050
+    environment:
+      - BW=100
+      - TOR_MaxCircuitDirtiness=1
+      - TZ=Europe/Paris
+      - LOCATION=FR

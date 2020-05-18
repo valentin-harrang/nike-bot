@@ -2,6 +2,7 @@ FROM alpine
 
 RUN apk add --update nodejs npm \
     && apk add -U --no-cache --allow-untrusted udev ttf-freefont chromium git \
+    && addgroup -S node && adduser -S tor -G node \
     && apk --no-cache --no-progress upgrade && \
     apk --no-cache --no-progress add bash curl privoxy shadow tini tor tzdata&&\
     file='/etc/privoxy/config' && \
@@ -55,15 +56,15 @@ RUN apk add --update nodejs npm \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 ENV CHROMIUM_PATH /usr/bin/chromium-browser
 
-RUN mkdir -p /app/node_modules
+RUN mkdir -p /app/node_modules && chown -R tor:node /app
  
 WORKDIR /app
  
-COPY /bot/package*.json ./
- 
-RUN npm install
+COPY --chown=tor:node . /app
 
 COPY torproxy.sh /usr/bin/
+
+RUN npm install
 
 EXPOSE 8118 9050 9051
 
